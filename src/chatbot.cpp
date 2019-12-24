@@ -45,6 +45,53 @@ ChatBot::~ChatBot()
 //// STUDENT CODE
 ////
 
+ChatBot::ChatBot(ChatBot const &another) {
+    std::cout<<"ChatBot Copy Operator\n";
+    _image = new wxBitmap(*another._image);
+    _chatLogic = another._chatLogic;
+    _rootNode = another._rootNode;
+
+}
+
+ChatBot &ChatBot::operator=(ChatBot const &another) {
+    std::cout<<"ChatBot Copy Assignment Operator\n";
+    if(this == &another)
+        return *this;
+    _image = new wxBitmap(*another._image);
+    _chatLogic = another._chatLogic;
+    _rootNode = another._rootNode;
+    return *this;
+}
+
+
+
+ChatBot::ChatBot(ChatBot &&another) noexcept {
+    std::cout<<"ChatBot Move Constructor\n";
+    _image = nullptr;
+    _chatLogic = nullptr;
+    _rootNode = nullptr;
+    std::swap(_image, another._image);
+    std::swap(_chatLogic, another._chatLogic);
+    std::swap(_rootNode, another._rootNode);
+
+}
+
+
+ChatBot &ChatBot::operator=(ChatBot &&another) noexcept {
+    std::cout<<"ChatBot Move Assignment Operator\n";
+
+    if(this == &another)
+        return *this;
+    delete _image;
+    _image = nullptr;
+    _chatLogic = nullptr;
+    _rootNode = nullptr;
+    std::swap(_image, another._image);
+    std::swap(_chatLogic, another._chatLogic);
+    std::swap(_rootNode, another._rootNode);
+    return *this;
+
+}
 ////
 //// EOF STUDENT CODE
 
@@ -146,3 +193,7 @@ int ChatBot::ComputeLevenshteinDistance(std::string s1, std::string s2)
 
     return result;
 }
+
+
+
+
